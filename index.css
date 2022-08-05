@@ -34,3 +34,26 @@ body
     font-weight: normal;
     font-style: normal;
 }
+
+.sidePanel 
+{
+    height: 100%; 
+    width: 25%; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    left: 0; 
+    background-color: #111; 
+    overflow-x: hidden; 
+    transition: 0.5s;
+}
+
+#closeNotifPanel
+{
+    position: absolute;
+    top: -20px;
+    right: 0;
+    font-size: 36px;
+    margin-right: 2rem;
+    cursor: pointer;
+}

@@ -11,10 +11,18 @@
 
         <link rel="stylesheet" href="./index.css">
 
-        <script src="./Notifications.js" defer></script>
+        <script src="./OldNotifications.js" defer></script>
+        <script src="./Notification.js" defer></script>
         <script src="./index.js" defer></script>
     </head>
     <body onload="onLoad()">
+        <div id="notificationRegion" class="sidePanel">
+            <div>
+                <h1 style="margin: 1rem;">Notifications</h1>
+                <p id="closeNotifPanel" onclick="closeNotifPanel()">X</p>
+                <div style="background-color: white; width: 100%; height: 5px;"> </div>
+            </div>
+        </div>
         <div class="outer">
             <!-- the div for the notification on older versions, centered on the top of the screen-->
             <div id="notificationsPanel" class="notificationsPanel">
@@ -26,13 +34,22 @@
             </div>
 
             <div id="mainDiv">
-                <label for="mainNotText">Main notification text</label>
-                <input type="text" id="mainNotText">
-                <br>
-                <label for="subNotText">Sub notification text</label>
-                <input type="text" id="subNotText">
-                <br>
-                <button onclick="sendNotif()">Send notification</button>
+                <fieldset>
+                    <legend>v2.1</legend>
+                    <div>
+                        <label for="mainNotText">Main notification text</label>
+                        <input type="text" id="mainNotText">
+                        <br>
+                        <label for="subNotText">Sub notification text</label>
+                        <input type="text" id="subNotText">
+                        <br>
+                        <button onclick="sendNotif()">Send notification</button>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>v3.0</legend>
+                    <button onclick="generateNotif()">Generate</button>
+                </fieldset>
             </div>
         </div>
     </body>

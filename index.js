@@ -28,3 +28,16 @@ function sendNotif()
     notif.subText = document.getElementById('subNotText').value;
     notif.notify();
 }
+
+function generateNotif()
+{
+    new NotificationInstance('Placeholderfdjglkjdkljgldfgjldfjgklfdjg', 'Placeholder');
+    new NotificationInstance('12345678910111213', 'sup');
+    new NotificationInstance('sex', 'Placeholder');
+    new NotificationInstance('xd', 'Placeholder');
+}
+
+function closeNotifPanel()
+{
+    document.getElementById('notificationRegion').style.width = "0%";
+}
