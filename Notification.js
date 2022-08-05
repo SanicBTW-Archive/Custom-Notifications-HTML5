@@ -59,6 +59,22 @@ class NotificationInstance
         }
         this.notificationRegHeader.style.opacity = "1";
         this.notificationRegContent.style.opacity = "1";
+        this.timer = setInterval(() => {
+            this.dismissTime += 0.5;
+
+            progBar.style.width = this.dismissTime + "%";
+
+            if(this.dismissTime == 400)
+            {
+                this.notificationRegContent.removeChild(this.notification);
+                this.onFinish();
+            }
+        }, 2);
+    }
+
+    onFinish = function()
+    {
+        console.log("Finished notifying!");
     }
 }
 
