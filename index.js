@@ -31,13 +31,12 @@ function sendNotif()
 
 function generateNotif()
 {
-    new NotificationInstance('Placeholderfdjglkjdkljgldfgjldfjgklfdjg', 'Placeholder');
-    new NotificationInstance('12345678910111213', 'sup');
-    new NotificationInstance('sex', 'Placeholder');
-    new NotificationInstance('xd', 'Placeholder');
+    new NotificationInstance(document.getElementById('mainNotv3Text').value, document.getElementById('subNotv3Text').value);
 }
 
 function closeNotifPanel()
 {
+    document.getElementById('notifPanelContent').style.opacity = "0";
+    document.getElementById('notifPanelHeader').style.opacity = "0";
     document.getElementById('notificationRegion').style.width = "0%";
 }

@@ -2,6 +2,8 @@
 class NotificationInstance
 {
     notificationRegion = document.getElementById('notificationRegion');
+    notificationRegHeader = document.getElementById('notifPanelHeader');
+    notificationRegContent = document.getElementById('notifPanelContent');
     dismissTime = 0.0;
     timer;
     notification = document.createElement('div');
@@ -40,11 +42,23 @@ class NotificationInstance
         content.appendChild(mainBar);
 
         this.notification.appendChild(content);
-        this.notificationRegion.appendChild(this.notification);
-        if(this.notificationRegion.style.width != "25%")
+        this.notificationRegContent.appendChild(this.notification);
+        if(detectDeviceType() == "Desktop")
         {
-            this.notificationRegion.style.width = "25%";
+            if(this.notificationRegion.style.width != "25%")
+            {
+                this.notificationRegion.style.width = "25%";
+            }
         }
+        else
+        {
+            if(this.notificationRegion.style.width != "100%")
+            {
+                this.notificationRegion.style.width = "100%";
+            }
+        }
+        this.notificationRegHeader.style.opacity = "1";
+        this.notificationRegContent.style.opacity = "1";
     }
 }
 
@@ -57,9 +71,6 @@ function checkTextLength(text)
     possibleLengths.set(17*4, (text.length > 17*4));
     possibleLengths.set(17*8, (text.length > 17*8));
     possibleLengths.set(17*10, (text.length > 17*10));
-
-    console.log("Checking text length");
-    console.log(text.length);
 
     //dumbass
     if(possibleLengths.get(17) && !possibleLengths.get(17*2) && !possibleLengths.get(17*4) && !possibleLengths.get(17*8) && !possibleLengths.get(17*10))

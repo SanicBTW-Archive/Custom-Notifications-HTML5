@@ -17,10 +17,13 @@
     </head>
     <body onload="onLoad()">
         <div id="notificationRegion" class="sidePanel">
-            <div>
+            <div id="notifPanelHeader" style="transition: 0.25s opacity; opacity: 0;">
                 <h1 style="margin: 1rem;">Notifications</h1>
                 <p id="closeNotifPanel" onclick="closeNotifPanel()">X</p>
                 <div style="background-color: white; width: 100%; height: 5px;"> </div>
+            </div>
+            <div id="notifPanelContent" style="transition: 0.25s opacity; opacity: 0;">
+
             </div>
         </div>
         <div class="outer">
@@ -48,7 +51,15 @@
                 </fieldset>
                 <fieldset>
                     <legend>v3.0</legend>
-                    <button onclick="generateNotif()">Generate</button>
+                    <div>
+                        <label for="mainNotv3Text">Main notification text</label>
+                        <input type="text" id="mainNotv3Text">
+                        <br>
+                        <label for="subNotv3Text">Sub notification text</label>
+                        <input type="text" id="subNotv3Text">
+                        <br>
+                        <button onclick="generateNotif()">Send notification</button>
+                    </div>
                 </fieldset>
             </div>
         </div>
