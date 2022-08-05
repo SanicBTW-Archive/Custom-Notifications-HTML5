@@ -10,7 +10,8 @@ class NotificationInstance
 
     constructor(mainText, subText)
     {
-        this.notification.style.cssText += "height: fit-content; overflow-x: hidden; transition: 0.25s ease-in-out;";
+        this.notification.style.cssText += "height: fit-content; overflow-x: hidden; transition: 0.5s opacity;";
+        this.notification.style.opacity = "0";
 
         //creates the div of the notification contnet
         var content = document.createElement('div');
@@ -59,6 +60,9 @@ class NotificationInstance
         }
         this.notificationRegHeader.style.opacity = "1";
         this.notificationRegContent.style.opacity = "1";
+
+        this.notification.style.opacity = "1";
+
         this.timer = setInterval(() => {
             this.dismissTime += 0.5;
 
@@ -66,16 +70,20 @@ class NotificationInstance
 
             if(this.dismissTime == 400)
             {
-                this.notificationRegContent.removeChild(this.notification);
-                if(this.notificationRegContent.childNodes.length == 1)
-                {
-                    this.notificationRegContent.style.opacity = "0";
-                    this.notificationRegHeader.style.opacity = "0";
-                    this.notificationRegion.style.width = "0%";
-                }
+                this.notification.style.opacity = "0";
                 this.onFinish();
             }
         }, 2);
+
+        this.notification.addEventListener('transitionend', () => {
+            this.notificationRegContent.removeChild(this.notification);
+            if(this.notificationRegContent.childNodes.length == 1)
+            {
+                this.notificationRegContent.style.opacity = "0";
+                this.notificationRegHeader.style.opacity = "0";
+                this.notificationRegion.style.width = "0%";
+            }
+        });
     }
 
     onFinish = function()
