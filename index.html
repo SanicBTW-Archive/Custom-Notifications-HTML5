@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Custom notifications</title>
+
+        <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+        <script>eruda.init();</script>
+
+        <link rel="stylesheet" href="./index.css">
+
+        <script src="./Notifications.js" defer></script>
+        <script src="./index.js" defer></script>
+    </head>
+    <body onload="onLoad()">
+        <div class="outer">
+            <!-- the div for the notification on older versions, centered on the top of the screen-->
+            <div id="notificationsPanel" class="notificationsPanel">
+                <div style="margin-left: 1rem; margin-right: 1rem;">
+                    <h1 id="notificationText"></h1>
+                    <p id="notificationSubText"></p>
+                </div>
+                <div style="background-color: dimgray; width: 100%;"> <div id="dismissProgress" style="width: 0%; height: 5px; transition: 1s; background-color: lightgreen;"> </div> </div>
+            </div>
+
+            <div id="mainDiv">
+                <label for="mainNotText">Main notification text</label>
+                <input type="text" id="mainNotText">
+                <br>
+                <label for="subNotText">Sub notification text</label>
+                <input type="text" id="subNotText">
+                <br>
+                <button onclick="sendNotif()">Send notification</button>
+            </div>
+        </div>
+    </body>
+</html>
