@@ -67,6 +67,12 @@ class NotificationInstance
             if(this.dismissTime == 400)
             {
                 this.notificationRegContent.removeChild(this.notification);
+                if(this.notificationRegContent.childNodes.length == 1)
+                {
+                    this.notificationRegContent.style.opacity = "0";
+                    this.notificationRegHeader.style.opacity = "0";
+                    this.notificationRegion.style.width = "0%";
+                }
                 this.onFinish();
             }
         }, 2);
