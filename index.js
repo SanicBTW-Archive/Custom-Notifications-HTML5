@@ -29,11 +29,6 @@ function sendNotif()
     notif.notify();
 }
 
-function generateNotif()
-{
-    new NotificationInstance(document.getElementById('mainNotv3Text').value, document.getElementById('subNotv3Text').value);
-}
-
 function closeNotifPanel()
 {
     document.getElementById('notifPanelContent').style.opacity = "0";

@@ -1,0 +1,43 @@
+body
+{
+	background-color: black;
+	overflow: hidden;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidePanel 
+{
+    color: white;
+    height: 100%; 
+    width: 0%; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    left: 0; 
+    background-color: #111; 
+    overflow-x: hidden; 
+    transition: 0.5s;
+}
+
+#closeNotifPanel
+{
+    position: absolute;
+    top: -20px;
+    right: 0;
+    font-size: 36px;
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+input[type=text]
+{
+    background-color: black;
+    color: white;
+}
+
+textarea
+{
+    background-color: black;
+    color: white;
+}

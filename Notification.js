@@ -1,4 +1,4 @@
-//ver 3.1, uses a little portion of old code
+//ver 3.2, uses a little portion of old code
 class NotificationInstance
 {
     notificationRegion = document.getElementById('notificationRegion');
@@ -8,9 +8,9 @@ class NotificationInstance
     timer;
     notification = document.createElement('div');
 
-    constructor(mainText, subText)
+    constructor(mainText, subText = '', backgroundColor = 'transparent', mainBarColor = 'dimgray', progressBarColor = 'lightgreen')
     {
-        this.notification.style.cssText += "height: fit-content; overflow-x: hidden; transition: 0.5s; position: relative; left: -2000px;";
+        this.notification.style.cssText += `height: fit-content; overflow-x: hidden; transition: 0.5s; position: relative; left: -2000px; background-color: ${backgroundColor};`;
 
         var content = document.createElement('div');
 
@@ -19,16 +19,16 @@ class NotificationInstance
         var main = document.createElement('h1');
         var sub = document.createElement('p');
 
-        main.innerText = checkTextLength(mainText);
-        sub.innerText = checkTextLength(subText);
+        main.innerText = mainText;
+        sub.innerText = subText;
 
         text.appendChild(main);
         text.appendChild(sub);
 
         var mainBar = document.createElement('div');
-        mainBar.style.cssText += "background-color: dimgray; width: 100%;";
+        mainBar.style.cssText += `background-color: ${mainBarColor}; width: 100%;`;
         var progBar = document.createElement('div');
-        progBar.style.cssText += "width: 0%; height: 5px; transition: 1s; background-color: lightgreen;";
+        progBar.style.cssText += `width: 0%; height: 5px; transition: 1s; background-color: ${progressBarColor};`;
 
         mainBar.appendChild(progBar);
 
@@ -86,87 +86,5 @@ class NotificationInstance
     onFinish = function()
     {
         console.log("Finished notifying!");
-    }
-}
-
-function checkTextLength(text)
-{
-    var possibleLengths = new Map();
-
-    possibleLengths.set(17, (text.length > 17));
-    possibleLengths.set(17*2, (text.length > 17*2));
-    possibleLengths.set(17*4, (text.length > 17*4));
-    possibleLengths.set(17*8, (text.length > 17*8));
-    possibleLengths.set(17*10, (text.length > 17*10));
-
-    //dumbass
-    if(possibleLengths.get(17) && !possibleLengths.get(17*2) && !possibleLengths.get(17*4) && !possibleLengths.get(17*8) && !possibleLengths.get(17*10))
-    {
-        var the = '';
-        var charArrays = text.split("");
-        charArrays.splice(17, 0, "\n");
-        for(var i in charArrays)
-        {
-            the += charArrays[i];
-        }
-        return the;
-    }
-    else if(possibleLengths.get(17) && possibleLengths.get(17*2) && !possibleLengths.get(17*4) && !possibleLengths.get(17*8) && !possibleLengths.get(17*10))
-    {
-        var the = '';
-        var charArrays = text.split("");
-        charArrays.splice(17, 0, "\n");
-        charArrays.splice(17*2, 0, "\n");
-        for(var i in charArrays)
-        {
-            the += charArrays[i];
-        }
-        return the;
-    }
-    else if(possibleLengths.get(17) && possibleLengths.get(17*2) && possibleLengths.get(17*4) && !possibleLengths.get(17*8) && !possibleLengths.get(17*10))
-    {
-        var the = '';
-        var charArrays = text.split("");
-        charArrays.splice(17, 0, "\n");
-        charArrays.splice(17*2, 0, "\n");
-        charArrays.splice(17*4, 0, "\n");
-        for(var i in charArrays)
-        {
-            the += charArrays[i];
-        }
-        return the;
-    }
-    else if(possibleLengths.get(17) && possibleLengths.get(17*2) && possibleLengths.get(17*4) && possibleLengths.get(17*8) && !possibleLengths.get(17*10))
-    {
-        var the = '';
-        var charArrays = text.split("");
-        charArrays.splice(17, 0, "\n");
-        charArrays.splice(17*2, 0, "\n");
-        charArrays.splice(17*4, 0, "\n");
-        charArrays.splice(17*8, 0, "\n");
-        for(var i in charArrays)
-        {
-            the += charArrays[i];
-        }
-        return the;
-    }
-    else if(possibleLengths.get(17) && possibleLengths.get(17*2) && possibleLengths.get(17*4) && possibleLengths.get(17*8) && possibleLengths.get(17*10))
-    {
-        var the = '';
-        var charArrays = text.split("");
-        charArrays.splice(17, 0, "\n");
-        charArrays.splice(17*2, 0, "\n");
-        charArrays.splice(17*4, 0, "\n");
-        charArrays.splice(17*8, 0, "\n");
-        charArrays.splice(17*10, 0, "\n");
-        for(var i in charArrays)
-        {
-            the += charArrays[i];
-        }
-        return the;
-    }
-    else
-    {
-        return text;
     }
 }
