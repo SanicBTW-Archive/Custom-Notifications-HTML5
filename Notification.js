@@ -1,4 +1,4 @@
-//ver 3.0, uses a little portion of old code
+//ver 3.1, uses a little portion of old code
 class NotificationInstance
 {
     notificationRegion = document.getElementById('notificationRegion');
@@ -10,27 +10,21 @@ class NotificationInstance
 
     constructor(mainText, subText)
     {
-        this.notification.style.cssText += "height: fit-content; overflow-x: hidden; transition: 0.5s opacity;";
-        this.notification.style.opacity = "0";
+        this.notification.style.cssText += "height: fit-content; overflow-x: hidden; transition: 0.5s; position: relative; left: -2000px;";
 
-        //creates the div of the notification contnet
         var content = document.createElement('div');
 
-        //creates text
         var text = document.createElement('div');
         text.style.cssText += "margin-left: 1rem; margin-right: 1rem;";
         var main = document.createElement('h1');
         var sub = document.createElement('p');
 
-        //Setups text
         main.innerText = checkTextLength(mainText);
         sub.innerText = checkTextLength(subText);
 
-        //append it to the text div
         text.appendChild(main);
         text.appendChild(sub);
 
-        //create prog bar
         var mainBar = document.createElement('div');
         mainBar.style.cssText += "background-color: dimgray; width: 100%;";
         var progBar = document.createElement('div');
@@ -38,7 +32,6 @@ class NotificationInstance
 
         mainBar.appendChild(progBar);
 
-        //append text div and progress div inside the main content div
         content.appendChild(text);
         content.appendChild(mainBar);
 
@@ -61,7 +54,10 @@ class NotificationInstance
         this.notificationRegHeader.style.opacity = "1";
         this.notificationRegContent.style.opacity = "1";
 
-        this.notification.style.opacity = "1";
+        window.setTimeout((tim) => {
+            this.notification.style.left = "0px";
+            window.clearTimeout(tim);
+        }, 5);
 
         this.timer = setInterval(() => {
             this.dismissTime += 0.5;
@@ -70,20 +66,21 @@ class NotificationInstance
 
             if(this.dismissTime == 400)
             {
-                this.notification.style.opacity = "0";
+                this.notification.style.left = "2000px";
+                
+                window.setTimeout((tim2) => {
+                    this.notificationRegContent.removeChild(this.notification);
+                    if(this.notificationRegContent.childNodes.length == 1)
+                    {
+                        this.notificationRegContent.style.opacity = "0";
+                        this.notificationRegHeader.style.opacity = "0";
+                        this.notificationRegion.style.width = "0%";
+                    }
+                    window.clearTimeout(tim2);
+                }, 150);
                 this.onFinish();
             }
         }, 2);
-
-        this.notification.addEventListener('transitionend', () => {
-            this.notificationRegContent.removeChild(this.notification);
-            if(this.notificationRegContent.childNodes.length == 1)
-            {
-                this.notificationRegContent.style.opacity = "0";
-                this.notificationRegHeader.style.opacity = "0";
-                this.notificationRegion.style.width = "0%";
-            }
-        });
     }
 
     onFinish = function()
@@ -172,27 +169,4 @@ function checkTextLength(text)
     {
         return text;
     }
-
-    /*
-    possibleLengths.forEach((am, statement) => {
-        console.log(am, statement);
-        if(statement)
-        {
-            if(time == 0)
-            {
-                var charArrays = text.split("");
-                charArrays.splice(am, 0, "\n");
-                for(var i in charArrays)
-                {
-                    the += charArrays[i];
-                }
-                time++;
-                return the;
-            }
-        }
-        else
-        {
-            the = text;
-        }
-    });*/
 }
