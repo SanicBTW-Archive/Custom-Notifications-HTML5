@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Custom notifications - Testing</title>
+
+        <style>
+            .notificationInfo 
+            { 
+                user-select: none; 
+                font-family: Arial, Helvetica, sans-serif; 
+                color: black; 
+                height: 100%; 
+                width: 0%; 
+                position: fixed; 
+                z-index: 1; 
+                top: 0; 
+                right: 0; 
+                background-color: rgba(255, 255, 255, 0.7); 
+                overflow-x: hidden; 
+                transition: 0.75s cubic-bezier(0.4, 0, 0.2, 1); 
+                border-radius: 25px 0px 0px 25px;
+            } 
+
+            .notification 
+            {
+                user-select: none;
+                font-family: Arial, Helvetica, sans-serif;
+                color: black;
+                height: fit-content;
+                width: 25%;
+                max-width: 25%;
+                overflow-x: hidden;
+                transition: 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+                background-color: rgba(255, 255, 255, 0.7);
+                border-radius: 25px;
+                position: fixed;
+                bottom: 16px;
+                right: 16px;
+                z-index: 2;
+            }
+        
+            .notification .progressBarMain 
+            {
+                width: 100%;
+                background-color: dimgray;
+            }
+        
+            .progressBarMain .progressBar 
+            {
+                width: 0%;
+                height: 10px;
+                background-color: lightblue;
+            }
+        
+            .textContent 
+            {
+                margin: 1rem;
+            }
+        </style>
+
+        <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+        <script>eruda.init();</script>
+
+        <script src="./Prototype2.js"></script>
+        <script src="./index.js" defer></script>
+    </head>
+    <body style="background-color: black;" spellcheck="false" autocapitalize="false">
+        <div id="testnInfo" class="notificationInfo">
+            <div class="textContent">
+                <h1>Hola</h1>
+                <p>mundo</p>
+                <p>This is prototype 2 of the notifications v4 version</p>
+                <p>I honestly dont know with which one to stick</p>
+                <p>This prototype doesn't have a class to work with it, sorry</p>
+                <p>Maybe I will work on it one day</p>
+            </div>
+        </div>
+        <div id="testNotif" class="notification">
+            <div class="textContent">
+                <h1>Hola</h1>
+                <p>mundo</p>
+            </div>
+
+            <div class="progressBarMain"> <div class="progressBar"> </div> </div>
+        </div>
+    </body>
+</html>
