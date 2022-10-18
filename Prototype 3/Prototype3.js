@@ -1,5 +1,7 @@
 //this will probably be the last prototype version
 
+//v1.0
+
 //some code heavily inspired by prototype 1
 class NotificationsHandler
 {
