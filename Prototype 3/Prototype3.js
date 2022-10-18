@@ -15,8 +15,6 @@ class NotificationsHandler
     is_Error = false; //If the notification is an error
 
     //Timer properties
-    dismiss_Timer = undefined; //The timer that increases dismiss_Time by dismiss_IncreaseBy and increases the value by dismiss_msIncrease
-    dismiss_Time = 0.0; //Current time until it reaches the limit
     dismiss_Limit = 400; //What value should dismiss_Time reach to close the notification
     dismiss_IncreaseBy = 0.5; //By how much should dismiss_Time increase
     dismiss_msIncrease = 2; //By how much should dismiss_Timer increase dismiss_Time
@@ -90,7 +88,7 @@ class NotificationsHandler
             notification.style.transform = "scale(1, 1)";
         });
 
-        notification.addEventListener('mousedown', () => 
+        notification.addEventListener('mousedown', (e) => 
         {
             this.dismiss_TimerPaused = true;
         });
@@ -109,8 +107,13 @@ class NotificationsHandler
             notification.style.width = this.notification_Width;
         }
 
-        notification.addEventListener('transitionend', this._runTimer(progressBar, notification));
-        notification.removeEventListener('transitionend', this._runTimer(progressBar, notification));
+        //notification.addEventListener('transitionend', this._runTimer(progressBar, notification));
+        //notification.removeEventListener('transitionend', this._runTimer(progressBar, notification));
+        notification.addEventListener('transitionend', (e) => 
+        {
+            if(e.propertyName == "width")
+                this._runTimer(progressBar, notification);
+        });
     }
 
     _platform()
@@ -129,26 +132,30 @@ class NotificationsHandler
 
     _runTimer(progressBar, notification) 
     {
+        //had to create it here because the shit was using the same timer and wasnt clearing it neither making it undefined lol
+        var dismiss_Timer = undefined; //The timer that increases dismiss_Time by dismiss_IncreaseBy and increases the value by dismiss_msIncrease
+        var dismiss_Time = 0.0; //Current time until it reaches the limit
         if(this.dismiss_TimerPaused == true){ this.dismiss_TimerPaused = false; }
-        this.dismiss_Timer = setInterval(() => 
+        dismiss_Timer = setInterval(() => 
         {
             if(this.dismiss_TimerPaused == false)
             {
-                this.dismiss_Time += this.dismiss_IncreaseBy;
+                dismiss_Time += this.dismiss_IncreaseBy;
 
-                progressBar.style.width = this.dismiss_Time + "%";
+                progressBar.style.width = dismiss_Time + "%";
 
-                if(this.dismiss_Time == this.dismiss_Limit)
+                if(dismiss_Time == this.dismiss_Limit)
                 {
                     notification.style.width = "0%";
-                    this.dismiss_Time = 0.0;
-                    notification.addEventListener('transitionend', () => 
+                    notification.addEventListener('transitionend', (e) => 
                     {
-                        notification.remove();
-                        this._onFinish();
-                        this.dismiss_Time = 0.0;
-                        clearInterval(this.dismiss_Timer);
-                        this.dismiss_Timer = undefined;
+                        if(e.propertyName == "width")
+                        {
+                            document.body.removeChild(notification);
+                            notification.remove();
+                            this._onFinish();
+                            clearInterval(dismiss_Timer);
+                        }
                     });
                 }
             }
