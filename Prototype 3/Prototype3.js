@@ -11,16 +11,21 @@ class NotificationsHandler
 
     //These properties have preset styles, instead of modifying the styles by yourself, maybe use these
     is_Indefinite = true; //If the progress bar should be run infinitely
+    //These are not updated
     is_Warning = false; //If the notification is a warning
     is_Error = false; //If the notification is an error
 
     //Timer properties
     dismiss_Limit = 400; //What value should dismiss_Time reach to close the notification
     dismiss_IncreaseBy = 0.5; //By how much should dismiss_Time increase
-    dismiss_msIncrease = 2; //By how much should dismiss_Timer increase dismiss_Time
+    dismiss_Timeout = 2; //By how much should dismiss_Timer increase dismiss_Time
+    dismiss_TimerPaused = false; //Is the timer paused? For the click event
 
     //Notification shit
     notification_Width = undefined; //Notification width duh, gets properly set when calling constructor
+
+    //Track custom progress
+    notification_Progress = 0.0;
 
     constructor()
     {
@@ -107,12 +112,29 @@ class NotificationsHandler
             notification.style.width = this.notification_Width;
         }
 
-        //notification.addEventListener('transitionend', this._runTimer(progressBar, notification));
-        //notification.removeEventListener('transitionend', this._runTimer(progressBar, notification));
+        if(this.is_Indefinite)
+        {
+            progressBar.style.width = "10%";
+            progressBar.style.position = "relative";
+            progressBar.style.left = "0px";
+        }
+
+        if(this.is_Warning)
+        {
+            progressBar.style.width = "100%";
+            progressBar.style.backgroundColor = "lightyellow";
+        }
+
+        if(this.is_Error)
+        {
+            progressBar.style.width = "100%";
+            progressBar.style.backgroundColor = "lightred";
+        }
+
         notification.addEventListener('transitionend', (e) => 
         {
             if(e.propertyName == "width")
-                this._runTimer(progressBar, notification);
+                this.update(progressBar, notification);
         });
     }
 
@@ -128,37 +150,82 @@ class NotificationsHandler
         console.log("Finished notifying");
     }
 
-    dismiss_TimerPaused = false;
-
-    _runTimer(progressBar, notification) 
+    update(progressBar, notification)
     {
-        //had to create it here because the shit was using the same timer and wasnt clearing it neither making it undefined lol
+        var lastProgress = 0.0; //To check the last notification progress, its updated constantly to check if there are any changes on state
+
+        //For the basic timer
         var dismiss_Timer = undefined; //The timer that increases dismiss_Time by dismiss_IncreaseBy and increases the value by dismiss_msIncrease
         var dismiss_Time = 0.0; //Current time until it reaches the limit
-        if(this.dismiss_TimerPaused == true){ this.dismiss_TimerPaused = false; }
-        dismiss_Timer = setInterval(() => 
+
+        //For indefinite
+        var indefinitePosition = 0; //The indefinite bar position
+        var lastIndefinitePosition = 0; //The last indefinite bar position
+        var addition = 1; //The amount of px to add to indefinite position
+        var minIndef = 0;
+        var maxIndef = 343;
+        setInterval((update) => 
         {
-            if(this.dismiss_TimerPaused == false)
+            lastProgress = this.notification_Progress;
+            if(lastProgress != this.notification_Progress)
             {
-                dismiss_Time += this.dismiss_IncreaseBy;
-
-                progressBar.style.width = dismiss_Time + "%";
-
-                if(dismiss_Time == this.dismiss_Limit)
+                //we got some active shit
+                if(this.is_Indefinite == false)
                 {
-                    notification.style.width = "0%";
-                    notification.addEventListener('transitionend', (e) => 
-                    {
-                        if(e.propertyName == "width")
-                        {
-                            document.body.removeChild(notification);
-                            notification.remove();
-                            this._onFinish();
-                            clearInterval(dismiss_Timer);
-                        }
-                    });
+                    progressBar.style.width = this.notification_Progress + "%";
+                }
+                else if(this.is_Indefinite == true)
+                {
+                    progressBar.style.width = "0%";
+                    progressBar.style.position = "static";
+                    progressBar.style.width = this.notification_Progress + "%";
                 }
             }
-        }, this.dismiss_msIncrease);
+            else if(this.notification_Progress == 0.0)
+            {
+                if(this.is_Indefinite == false)
+                {
+                    //we now pass to the real shit
+                    clearInterval(update);
+
+                    if(this.dismiss_TimerPaused == true){ this.dismiss_TimerPaused = false; }
+                    dismiss_Timer = setInterval(() => 
+                    {
+                        if(this.dismiss_TimerPaused == false)
+                        {
+                            dismiss_Time += this.dismiss_IncreaseBy;
+        
+                            progressBar.style.width = dismiss_Time + "%";
+        
+                            if(dismiss_Time == this.dismiss_Limit)
+                            {
+                                notification.style.width = "0%";
+                                notification.addEventListener("transitionend", (e) => 
+                                {
+                                    if(e.propertyName == "width")
+                                    {
+                                        document.body.removeChild(notification);
+                                        notification.remove();
+                                        this._onFinish();
+                                        clearInterval(dismiss_Timer);
+                                    }
+                                });
+                            }
+                        }
+                    }, this.dismiss_Timeout);
+                }
+                else if(this.is_Indefinite == true)
+                {
+                    //I KNOW IM DUMB OKAY
+                    indefinitePosition += addition;
+                    lastIndefinitePosition = indefinitePosition;
+                    if(indefinitePosition >= maxIndef && lastIndefinitePosition > maxIndef)
+                        addition = -1;
+                    else if(indefinitePosition <= minIndef && lastIndefinitePosition < minIndef)
+                        addition = 1;
+                    progressBar.style.left = indefinitePosition + "px";
+                }
+            }
+        }, 30);
     }
 }
